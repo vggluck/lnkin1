@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Link Not Found</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: #00FF00;
+            font-family: 'Dela Gothic One', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        h1 { font-size: clamp(80px, 20vw, 150px); margin: 0; line-height: 1; }
+        p { font-size: 18px; color: #fff; margin: 20px 0 40px 0; opacity: 0.8; }
+
+        .btn-home {
+            border: 2px solid #00FF00;
+            color: #00FF00;
+            padding: 15px 40px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            background: #00FF00;
+            color: #000;
+            box-shadow: 0 0 30px #00FF00;
+        }
+
+        .glitch { position: relative; }
+        .glitch::after {
+            content: '404';
+            position: absolute;
+            left: 2px;
+            text-shadow: -2px 0 red;
+            top: 0;
+            background: black;
+            overflow: hidden;
+            clip: rect(0, 900px, 0, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 50px, 0); }
+            100% { clip: rect(80px, 9999px, 100px, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="glitch">404</h1>
+    <p>Apologies, but the requested link does not exist.</p>
+    
+    <a href="/" class="btn-home">Return to Home</a>
+
+</body>
+</html>
