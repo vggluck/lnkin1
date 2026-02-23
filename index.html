@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkinOne - Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: #00FF00;
+            font-family: 'Dela Gothic One', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 40px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px #00FF00;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        /* Стиль полей ввода */
+        input {
+            background: #111;
+            border: 3px solid #00FF00;
+            color: #00FF00;
+            padding: 15px;
+            margin-bottom: 15px;
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            box-shadow: 0 0 15px #00FF00;
+            background: #1a1a1a;
+        }
+
+        input::placeholder {
+            color: rgba(0, 255, 0, 0.5);
+        }
+
+        /* Кнопка IM READY! */
+        .btn-ready {
+            background: #00FF00;
+            color: #000;
+            border: none;
+            padding: 20px;
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 18px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-ready:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #00FF00;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 10px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>REGISTER</h1>
+
+    <div class="form-container">
+        <input type="email" id="regEmail" placeholder="EMAIL">
+        <input type="password" id="regPass" placeholder="PASSWORD">
+        <input type="text" id="regUser" placeholder="USERNAME">
+        
+        <button class="btn-ready" onclick="registerUser()">IM READY!</button>
+    </div>
+
+    <footer>MADED BY LINKINONE</footer>
+
+    <script>
+        function registerUser() {
+            const user = document.getElementById('regUser').value;
+            const email = document.getElementById('regEmail').value;
+            
+            if (user && email) {
+                // Сохраняем имя в браузере, чтобы потом юзать в дашборде
+                localStorage.setItem('username', user);
+                // Кидаем на дашборд
+                window.location.href = 'dash.html';
+            } else {
+                alert("Э, заполни всё, а то как я пойму кто ты?");
+            }
+        }
+    </script>
+
+</body>
+</html>
