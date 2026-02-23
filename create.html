@@ -89,15 +89,15 @@
             const myRepo = "vggluck/lnkin1"; 
 
             if (!user) {
-                alert("Бро, ты не зарегался! Го на register.html");
+                alert("Please register before you do your short link");
                 return;
             }
             if (!longUrl) {
-                alert("А ссылку кто вставлять будет? ПРЭНИКС?");
+                alert("Please dont leave blank url label");
                 return;
             }
 
-            statusDiv.innerText = "ШАМАНЮ В ГИТХАБЕ... ПОДОЖДИ ПАРУ СЕКУНД";
+            statusDiv.innerText = "Processing";
 
             try {
                 const res = await fetch(workerUrl, {
@@ -112,15 +112,15 @@
                     links.push({ platform, longUrl });
                     localStorage.setItem('myLinks', JSON.stringify(links));
                     
-                    statusDiv.innerText = "ПОБЕДА! РЕДИРЕКТИМ...";
+                    statusDiv.innerText = "Loading";
                     window.location.href = `done.html?p=${platform}`;
                 } else {
                     const err = await res.json();
-                    statusDiv.innerText = "БЛЯ, ГИТХАБ НЕ ПУСКАЕТ: " + (err.message || "Ошибка токена");
+                    statusDiv.innerText = "Sorry, error: " + (err.message || "Error");
                     console.error(err);
                 }
             } catch (e) {
-                statusDiv.innerText = "ВОРКЕР СДОХ: " + e.message;
+                statusDiv.innerText = "Our worker died:/: " + e.message;
             }
         }
     </script>
