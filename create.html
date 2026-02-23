@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkinOne - Create</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: #00FF00;
+            font-family: 'Dela Gothic One', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 { font-size: 32px; text-transform: uppercase; margin-bottom: 30px; }
+
+        select, input {
+            background: #111;
+            border: 3px solid #00FF00;
+            color: #00FF00;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+            outline: none;
+        }
+
+        .btn-done {
+            background: #00FF00;
+            color: #000;
+            border: none;
+            padding: 20px 50px;
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-done:hover {
+            box-shadow: 0 0 25px #00FF00;
+            transform: scale(1.05);
+        }
+
+        .status { margin-top: 20px; font-size: 14px; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <h1>CHOOSE YOUR SOCIAL</h1>
+
+    <select id="platform">
+        <option value="youtube">YouTube</option>
+        <option value="facebook">Facebook</option>
+        <option value="instagram">Instagram</option>
+        <option value="vk">VK</option>
+        <option value="telegram">Telegram</option>
+        <option value="other">Other</option>
+    </select>
+
+    <input type="text" id="longUrl" placeholder="PASTE LONG LINK HERE">
+
+    <button class="btn-done" onclick="sendToWorker()">DONE</button>
+
+    <div id="status" class="status"></div>
+
+    <script>
+        async function sendToWorker() {
+            const user = localStorage.getItem('username');
+            const platform = document.getElementById('platform').value;
+            const longUrl = document.getElementById('longUrl').value;
+            const statusDiv = document.getElementById('status');
+            
+            // Твой воркер со скрина
+            const workerUrl = "https://worker-of-linkinone-service.utubnatoyashiy.workers.dev/"; 
+            
+            // Твои данные, которые ты скинул
+            const myRepo = "vggluck/lnkin1"; 
+
+            if (!user) {
+                alert("Бро, ты не зарегался! Го на register.html");
+                return;
+            }
+            if (!longUrl) {
+                alert("А ссылку кто вставлять будет? ПРЭНИКС?");
+                return;
+            }
+
+            statusDiv.innerText = "ШАМАНЮ В ГИТХАБЕ... ПОДОЖДИ ПАРУ СЕКУНД";
+
+            try {
+                const res = await fetch(workerUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ user, platform, longUrl, repo: myRepo })
+                });
+
+                if (res.ok) {
+                    // Сохраняем локально, чтоб в дашборде красиво было
+                    let links = JSON.parse(localStorage.getItem('myLinks')) || [];
+                    links.push({ platform, longUrl });
+                    localStorage.setItem('myLinks', JSON.stringify(links));
+                    
+                    statusDiv.innerText = "ПОБЕДА! РЕДИРЕКТИМ...";
+                    window.location.href = `done.html?p=${platform}`;
+                } else {
+                    const err = await res.json();
+                    statusDiv.innerText = "БЛЯ, ГИТХАБ НЕ ПУСКАЕТ: " + (err.message || "Ошибка токена");
+                    console.error(err);
+                }
+            } catch (e) {
+                statusDiv.innerText = "ВОРКЕР СДОХ: " + e.message;
+            }
+        }
+    </script>
+</body>
+</html>
